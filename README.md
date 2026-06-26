@@ -97,3 +97,25 @@ Returns structured output:
   "hallucination_risk": "LOW",
   "evidence_snippet": "..."
 }
+
+# Architecture
+
+FHIR R4 Bundles
+      ↓
+Clinical Extraction (Cell 1)
+      ↓
+Clinical Text Documents
+      ↓
+Chunking (Cell 2)
+      ↓
+Embeddings (SentenceTransformers)
+      ↓
+ChromaDB Vector Store
+      ↓
+RAG Retrieval Engine (Cell 3)
+      ↓
+Hallucination Detection (Cell 4)
+      ↓
+Evaluation Metrics (Cell 5)
+      ↓
+FastAPI Service (Cell 6)
