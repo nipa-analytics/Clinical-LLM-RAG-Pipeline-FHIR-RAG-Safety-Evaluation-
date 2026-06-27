@@ -1,121 +1,130 @@
-# Clinical-LLM-RAG-Pipeline-FHIR-RAG-Safety-Evaluation-
-A production-style **Clinical Retrieval-Augmented Generation (RAG) system** that converts **FHIR R4 patient data into structured clinical narratives**, enables **semantic search via vector embeddings**, and provides **safe, explainable clinical question answering with hallucination detection and evaluation metrics**.
+# 🏥 Clinical LLM RAG Pipeline (FHIR + Safety-Aware Healthcare AI)
 
-## 🚀 Project Highlights
+A production-style **Retrieval-Augmented Generation (RAG) system for clinical EHR data** built using **FHIR R4, vector databases, and biomedical NLP models**.
 
-This project simulates a **real-world clinical AI system** similar to solutions built at:
-
-- 🏥 Abridge (Clinical AI Scribe)
-- 🏥 Microsoft DAX (Clinical Documentation AI)
-- 🏥 Google Health (Clinical NLP Systems)
-- 🏥 IQVIA (Healthcare Analytics Platforms)
+This project simulates real-world healthcare AI systems used in companies like **Abridge, Google Health, Microsoft DAX, and IQVIA**, where structured + unstructured clinical data is transformed into safe, queryable intelligence.
 
 ---
 
-## ⚡ Key Features
+## 🚀 Key Features
 
-### 🔹 1. FHIR → Clinical Text Generation
-- Parses **FHIR R4 JSON bundles (Synthea format)**
-- Extracts:
-  - Patient demographics
-  - Conditions (SNOMED → ICD-10 mapping)
-  - Medications
-  - Observations (LOINC vitals/labs)
-  - Encounters & procedures
-- Converts structured EHR data → **LLM-ready clinical narrative**
-
----
-
-### 🔹 2. Smart Clinical Chunking
-- Uses **semantic-aware chunking**
-- Preserves medical structure:
-  - Diagnoses
-  - Medications
-  - Labs
-  - Clinical events
-- Optimized for embedding models (~600 token chunks)
+- 🏥 **FHIR R4 Clinical Data Ingestion (Synthea-compatible)**
+- 🧠 **Clinical Document Generation from EHR Bundles**
+- ✂️ **Smart Clinical Chunking for Medical Context Preservation**
+- 🔍 **Vector Search using Sentence Transformers**
+- 🗂️ **ChromaDB Vector Store (local, HIPAA-safe design pattern)**
+- 🤖 **RAG-based Clinical Question Answering**
+- 📄 **Automated EHR Summarization**
+- ⚠️ **Clinical Hallucination Detection Layer (Safety-Aware AI)**
+- 🧪 **Retrieval Evaluation across clinical scenarios**
 
 ---
 
-### 🔹 3. Vector Embeddings + Retrieval
-- Embedding models:
-  - `all-MiniLM-L6-v2` (baseline)
-  - Compatible with BioBERT / PubMedBERT (production upgrade)
-- Vector DB:
-  - ChromaDB (persistent storage)
-- Enables **semantic clinical search**
+## 🏗️ System Architecture
+FHIR R4 Bundles (Synthea)
+↓
+Clinical Data Extraction (Python)
+↓
+Clinical Document Construction
+↓
+Text Chunking (LangChain)
+↓
+Embeddings (SentenceTransformers / BGE / ClinicalBERT)
+↓
+Vector Store (ChromaDB)
+↓
+RAG Retrieval Engine
+↓
+LLM Answer + Safety Layer
+↓
+Clinical Output (QA / Summary / Risk Insights)
+
+
 
 ---
 
-### 🔹 4. Clinical RAG Pipeline
-- Retrieval-Augmented Generation system:
-  - Query → embedding → vector search → context retrieval
-  - Prompt engineering with strict clinical constraints
-- Prevents hallucinations using context grounding
+## 🧪 Tech Stack
+
+- **Python 3.10**
+- **FHIR R4 (HL7 Standard)**
+- **LangChain**
+- **SentenceTransformers (all-MiniLM / BGE models)**
+- **ChromaDB**
+- **FAISS (optional extension)**
+- **NumPy / Pandas**
+- **Jupyter Notebooks**
+- **FastAPI (for deployment-ready API layer)**
 
 ---
 
-### 🔹 5. Clinical Safety Layer (Hallucination Detection)
-- Medical entity extraction:
-  - Diseases
-  - Medications
-  - Lab terms
-- Evidence validation between:
-  - Query vs retrieved context
-- Outputs:
-  - Confidence score
-  - Hallucination risk (LOW / MEDIUM / HIGH)
-  - Missing evidence detection
+## 📁 Project Structure
 
----
+```
 
-### 🔹 6. RAG Evaluation Framework
-Implements lightweight evaluation metrics:
+clinical-llm-rag-pipeline/
+│
+├── 01\_clinical\_rag\_pipeline.ipynb     # FHIR ingestion + preprocessing
+├── 02\_chunking\_embeddings.ipynb       # Chunking + vector embedding
+├── 03\_rag\_qa\_pipeline.ipynb           # Clinical question answering
+├── 04\_safety\_layer.ipynb              # Hallucination detection layer
+│
+├── data/
+│   └── fhir/                           # Synthea FHIR R4 bundles
+│
+├── output/
+│   ├── vectorstore/                    # ChromaDB persistence
+│   └── reports/                        # Evaluation outputs
+│
+├── app/
+│   └── api.py                          # FastAPI inference endpoint
+│
+├── requirements.txt
+└── README.md
 
-- 📊 Recall@K (retrieval performance)
-- 📊 Context Precision
-- 📊 Faithfulness score
-- 📊 System-level summary metrics
+⚙️ How It Works
+1. FHIR Data Ingestion
+Parses Synthea-generated FHIR R4 bundles
+Extracts:
+Conditions (SNOMED → ICD-10 mapping)
+Medications
+Observations (LOINC labs/vitals)
+Encounters & Procedures
 
-Simulates **RAGAS-style evaluation pipeline**
+2. Clinical Document Construction
+Converts structured EHR → LLM-readable clinical narrative
+Preserves medical context (diagnosis, labs, medications)
 
----
+3. Chunking Strategy
+Uses clinical-aware recursive chunking
+Preserves:
+Diagnosis blocks
+Medication sections
+Vitals & labs continuity
 
-### 🔹 7. FastAPI Clinical Deployment
-Production-style API:
+4. Vector Embedding Layer
+Model: all-MiniLM-L6-v2 (lightweight baseline)
+Optional upgrade:
+BioBERT
+ClinicalBERT
+BGE-large-medical
 
-- `/query` → Clinical Q&A endpoint
-- `/health` → system status
+5. Retrieval-Augmented Generation (RAG)
+Queries clinical embeddings
+Retrieves top-k patient context
+Feeds into LLM for:
+Question Answering
+Clinical summarization
 
-Returns structured output:
-```json
-{
-  "question": "Does the patient have diabetes?",
-  "answer": "...",
-  "patient_id": "P12345",
-  "confidence": 0.87,
-  "hallucination_risk": "LOW",
-  "evidence_snippet": "..."
-}
+6. Safety Layer (Key Differentiator)
+Detects hallucinated or unsupported medical claims
+Flags:
+Unsupported diagnoses
+Missing evidence in retrieved context
+Overconfident LLM outputs
 
-# Architecture
 
-FHIR R4 Bundles
-      ↓
-Clinical Extraction (Cell 1)
-      ↓
-Clinical Text Documents
-      ↓
-Chunking (Cell 2)
-      ↓
-Embeddings (SentenceTransformers)
-      ↓
-ChromaDB Vector Store
-      ↓
-RAG Retrieval Engine (Cell 3)
-      ↓
-Hallucination Detection (Cell 4)
-      ↓
-Evaluation Metrics (Cell 5)
-      ↓
-FastAPI Service (Cell 6)
+--- Author
+Nipa Shah
+MS Business Analytics
+Healthcare AI | Clinical NLP | Responsible AI
+GitHub: https://github.com/nipa-analytics
