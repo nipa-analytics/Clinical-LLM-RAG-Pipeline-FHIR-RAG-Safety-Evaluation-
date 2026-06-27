@@ -2,8 +2,6 @@
 
 A production-style **Retrieval-Augmented Generation (RAG) system for clinical EHR data** built using **FHIR R4, vector databases, and biomedical NLP models**.
 
-This project simulates real-world healthcare AI systems used in companies like **Abridge, Google Health, Microsoft DAX, and IQVIA**, where structured + unstructured clinical data is transformed into safe, queryable intelligence.
-
 ---
 
 ## 🚀 Key Features
