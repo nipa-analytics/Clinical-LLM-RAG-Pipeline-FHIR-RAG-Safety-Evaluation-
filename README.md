@@ -2,6 +2,7 @@
 
 A production-style **Retrieval-Augmented Generation (RAG) system for clinical EHR data** built using **FHIR R4, vector databases, and biomedical NLP models**.
 
+This pipeline mirrors the architectures of **COMPOSER-LLM** (UCSD Health, 2025) and **FHIR-RAG-MEDS** (2026) — both published systems that combine FHIR data extraction with LLM inference for clinical decision support.
 ---
 
 ## 🚀 Key Features
